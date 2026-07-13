@@ -4,16 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lovesick — A Cosy Game for Two</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ===== Header ===== -->
+  <!-- Decorative ambient light -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <!-- ================= HEADER ================= -->
   <header class="header">
-    <p class="tagline">♥ &nbsp;A COSY GAME FOR TWO&nbsp; ♥</p>
-    <h1 class="title">LOVESICK</h1>
+    <p class="tagline"><span class="heart-mark">♥</span>A COSY GAME FOR TWO<span class="heart-mark">♥</span></p>
+    <h1 class="title">Lovesick</h1>
     <div class="title-divider">
       <span class="line"></span>
       <span class="heart">♥</span>
@@ -21,12 +30,12 @@
     </div>
   </header>
 
-  <!-- ===== Player bar ===== -->
+  <!-- ================= PLAYER BAR ================= -->
   <section class="player-bar">
 
+    <!-- LEFT PLAYER -->
     <div class="player player-left" id="player-vamp">
       <div class="avatar-ring">
-        <div class="avatar-ring-base"></div>
         <img class="avatar-img" src="assets/vamp.png" alt="Vamp">
       </div>
       <div class="player-info">
@@ -39,12 +48,15 @@
       </div>
     </div>
 
+    <!-- TURN -->
     <div class="turn-pill" id="turn-pill">
-      <span><span class="turn-name" id="turn-name">Vamp</span><span id="turn-label">'s turn</span></span>
+      <span class="turn-pill-name" id="turn-name">Vamp</span>
       <span class="turn-icon">♥</span>
+      <span class="turn-pill-label">'s turn</span>
       <span class="skip-badge" id="skip-badge" hidden>0 skips</span>
     </div>
 
+    <!-- RIGHT PLAYER -->
     <div class="player player-right" id="player-rabbit">
       <div class="player-info player-info-right">
         <span class="player-name">Rabbit</span>
@@ -55,69 +67,67 @@
         <span class="page-chip" id="page-chip-rabbit" hidden>off-screen</span>
       </div>
       <div class="avatar-ring">
-        <div class="avatar-ring-base"></div>
         <img class="avatar-img" src="assets/rabbit.png" alt="Rabbit">
       </div>
     </div>
 
   </section>
 
-  <!-- ===== Board ===== -->
+  <!-- ================= BOARD ================= -->
   <section class="board-wrap">
-    <div class="board" id="board">
-      <!-- 5 rows x 10 cols = 50 squares injected per page by JS -->
-    </div>
+    <div class="board" id="board"></div>
   </section>
 
-  <!-- ===== Controls ===== -->
+  <!-- ================= CONTROLS ================= -->
   <footer class="controls">
     <div class="dice-wrap">
       <button class="dice-btn" id="dice-btn" aria-label="Roll dice">
         <span class="dice-face" id="dice-face">⚄</span>
       </button>
-      <span class="dice-label" id="dice-label">TAP TO ROLL</span>
+      <span class="dice-label" id="dice-label">Tap to roll</span>
     </div>
 
     <button class="btn btn-rules" id="btn-rules">
       <span class="btn-icon">📖</span>
-      <span>RULES</span>
+      <span>Rules</span>
     </button>
   </footer>
 
 </div>
 
-<!-- ===== Task Popup Modal ===== -->
+<!-- ================= TASK MODAL ================= -->
 <div class="modal-overlay" id="task-modal" hidden>
   <div class="modal-card">
     <div class="modal-heart">♥</div>
     <h2 class="modal-square-label" id="modal-square-label">Square 0</h2>
-    <p class="modal-task-text" id="modal-task-text">Task text goes here.</p>
+    <p class="modal-task-text" id="modal-task-text">Task text</p>
     <div class="modal-actions">
-      <button class="modal-btn modal-btn-skip" id="btn-skip">SKIP</button>
-      <button class="modal-btn modal-btn-accept" id="btn-accept">ACCEPT</button>
+      <button class="modal-btn modal-btn-skip" id="btn-skip">Skip</button>
+      <button class="modal-btn modal-btn-accept" id="btn-accept">Accept</button>
     </div>
-    <p class="modal-hint" id="modal-hint">Complete 3 accepted tasks to earn 1 skip</p>
+    <p class="modal-hint" id="modal-hint">Complete 3 accepted tasks to earn 1 skip.</p>
   </div>
 </div>
 
-<!-- ===== Rules Modal ===== -->
+<!-- ================= RULES ================= -->
 <div class="modal-overlay" id="rules-modal" hidden>
   <div class="modal-card">
     <div class="modal-heart">♥</div>
     <h2 class="modal-square-label">How to Play</h2>
     <ul class="rules-list">
-      <li>Tap the dice to roll and move your token forward.</li>
-      <li>Landing on a square pops up a task — Accept it or Skip it.</li>
-      <li>Skipping doesn't end your turn — roll again and move onward from where you are.</li>
-      <li>Accept 3 tasks to earn 1 skip charge for later.</li>
-      <li>First to reach square 200 wins!</li>
+      <li>Roll the dice and move.</li>
+      <li>Every square holds a task.</li>
+      <li>Skip keeps your turn alive.</li>
+      <li>3 accepted tasks = 1 skip.</li>
+      <li>Reach 200 first to win.</li>
     </ul>
     <div class="modal-actions modal-actions-single">
-      <button class="modal-btn modal-btn-accept" id="btn-close-rules">GOT IT</button>
+      <button class="modal-btn modal-btn-accept" id="btn-close-rules">Got it</button>
     </div>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=125"></script>
+
 </body>
 </html>

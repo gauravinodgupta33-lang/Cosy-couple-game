@@ -1,1 +1,709 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
+/* ============ Reset & Base ============ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(ellipse at 20% -10%, rgba(201, 138, 94, 0.10) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 15%, rgba(61, 15, 40, 0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at top, #1a0510 0%, #0a0208 55%, #050103 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 12px 60px;
+  color: #f5e6ea;
+  overflow-x: hidden;
+}
+
+/* ============ App Shell ============ */
+.app {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+}
+
+/* ============ Header ============ */
+.header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.tagline {
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #d9a875;
+  text-shadow: 0 0 10px rgba(217, 168, 117, 0.5);
+  margin-bottom: 6px;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 58px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  background: linear-gradient(180deg, #fbe8d3 0%, #e8c39a 30%, #d9a875 55%, #b8794f 80%, #9c5f42 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 22px rgba(233, 160, 145, 0.4));
+  line-height: 1;
+}
+
+.title-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.title-divider .line {
+  height: 1px;
+  width: 70px;
+  background: linear-gradient(90deg, transparent, rgba(232, 180, 160, 0.6), transparent);
+}
+
+.title-divider .heart {
+  color: #e8b4a0;
+  font-size: 13px;
+  text-shadow: 0 0 8px rgba(232, 180, 160, 0.8);
+}
+
+/* ============ Player Bar ============ */
+.player-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(61, 15, 40, 0.55), rgba(20, 6, 12, 0.65));
+  border: 1px solid rgba(232, 180, 160, 0.16);
+  border-radius: 20px;
+  padding: 26px 14px 12px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.player-right {
+  flex-direction: row-reverse;
+}
+
+/* Medallion frame — the character's bust rises out of a rose-gold
+   ring "pedestal" rather than being cropped flat inside a circle,
+   giving it a sculptural, figurine-on-a-stand look. */
+.avatar-ring {
+  flex-shrink: 0;
+  position: relative;
+  width: 58px;
+  height: 58px;
+}
+
+.avatar-ring-base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 58px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: conic-gradient(from 200deg, #fbe8d3, #d9a875, #b8794f, #9c5f42, #b8794f, #d9a875, #fbe8d3);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(217, 168, 117, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.avatar-ring-base::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #4a1530, #150408);
+}
+
+.avatar-img {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  object-position: center 10%;
+  display: block;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
+  z-index: 1;
+}
+
+.player-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.player-info-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.player-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: #fbe8d3;
+}
+
+.progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0.5%;
+  background: linear-gradient(90deg, #c98a5e, #e8b4a0, #ffd9e6);
+  box-shadow: 0 0 6px rgba(232, 180, 160, 0.7);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.player-score {
+  font-size: 10px;
+  color: rgba(245, 230, 234, 0.55);
+  letter-spacing: 0.5px;
+}
+
+.page-chip {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #f7e8dc;
+  background: rgba(201, 138, 94, 0.22);
+  border: 1px solid rgba(232, 180, 160, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.player-info-right .page-chip {
+  align-self: flex-end;
+}
+
+/* ============ Turn Pill ============ */
+.turn-pill {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(180deg, rgba(90, 25, 50, 0.92), rgba(35, 8, 16, 0.92));
+  border: 1px solid rgba(232, 180, 160, 0.4);
+  border-radius: 999px;
+  padding: 9px 15px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #f2e2d3;
+  box-shadow: 0 0 16px rgba(201, 138, 94, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  flex-direction: column;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.turn-pill .turn-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #fbe8d3;
+  margin-right: 2px;
+}
+
+.turn-pill .turn-icon {
+  font-size: 13px;
+  color: #e8b4a0;
+}
+
+.skip-badge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff2e0;
+  background: linear-gradient(135deg, rgba(201, 138, 94, 0.35), rgba(168, 61, 99, 0.35));
+  border: 1px solid rgba(232, 180, 160, 0.45);
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-top: 2px;
+}
+
+/* ============ Board ============ */
+.board-wrap {
+  background: linear-gradient(180deg, rgba(61, 15, 40, 0.45), rgba(15, 4, 8, 0.8));
+  border: 1px solid rgba(232, 180, 160, 0.18);
+  border-radius: 26px;
+  padding: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.45), 0 0 30px rgba(90, 30, 55, 0.18);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  transition: opacity 0.25s ease;
+}
+
+.board.board-swap {
+  opacity: 0;
+}
+
+.square {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(245, 230, 234, 0.7);
+  overflow: visible;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.square::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(232, 180, 160, 0.3);
+}
+
+.square.square-current {
+  background: linear-gradient(160deg, rgba(201, 138, 94, 0.3), rgba(168, 61, 99, 0.18));
+  border-color: rgba(232, 180, 160, 0.55);
+  box-shadow: 0 0 14px rgba(201, 138, 94, 0.4);
+  color: #fff2e0;
+}
+
+.square.square-final {
+  background: linear-gradient(160deg, rgba(255, 224, 160, 0.28), rgba(180, 130, 40, 0.18));
+  border-color: rgba(255, 224, 160, 0.55);
+  box-shadow: 0 0 12px rgba(255, 210, 130, 0.25);
+}
+
+.square-crown {
+  position: absolute;
+  top: -10px;
+  font-size: 13px;
+  filter: drop-shadow(0 0 4px rgba(255, 218, 150, 0.85));
+}
+
+.square-number {
+  z-index: 1;
+}
+
+.square-tokens {
+  position: absolute;
+  bottom: -12px;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+  z-index: 2;
+}
+
+/* Token — the character's portrait sits in a soft circular base,
+   but the head/hair is allowed to rise above it for a sculptural,
+   "figurine" look instead of a flat sticker-in-a-circle. */
+.token {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  animation: tokenHop 0.4s ease;
+}
+
+.token-base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #4a1530, #1a0509);
+  border: 1.5px solid rgba(201, 138, 94, 0.7);
+  box-shadow: 0 0 6px rgba(201, 138, 94, 0.4), 0 2px 5px rgba(0, 0, 0, 0.55);
+}
+
+.token-rabbit .token-base {
+  border-color: rgba(240, 200, 150, 0.75);
+  box-shadow: 0 0 6px rgba(240, 200, 150, 0.4), 0 2px 5px rgba(0, 0, 0, 0.55);
+}
+
+.token img {
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  object-position: center 12%;
+  display: block;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes tokenHop {
+  0%   { transform: translateY(0) scale(0.85); opacity: 0; }
+  40%  { transform: translateY(-10px) scale(1.05); opacity: 1; }
+  70%  { transform: translateY(1px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Bigger, snappier bounce applied only to the token that's actively
+   hopping across squares mid-roll, so it visibly reads as movement
+   rather than a static re-render. */
+.token.animate-hop {
+  animation: tokenHopActive 0.22s ease-out;
+  z-index: 3;
+}
+
+@keyframes tokenHopActive {
+  0%   { transform: translateY(0) scale(1); }
+  35%  { transform: translateY(-16px) scale(1.12); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.page-indicator {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(245, 230, 234, 0.4);
+  margin-top: 10px;
+}
+
+/* ============ Controls ============ */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 6px;
+}
+
+.controls .btn-rules {
+  position: absolute;
+  right: 6px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(180deg, rgba(61, 15, 40, 0.75), rgba(25, 7, 13, 0.8));
+  border: 1px solid rgba(232, 180, 160, 0.3);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #f7e8dc;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 0 14px rgba(201, 138, 94, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 13px;
+}
+
+.dice-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transform: translateY(-14px);
+}
+
+.dice-btn {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle at 35% 30%, #fff2e0, #e8b4a0 55%, #c98a5e 100%);
+  box-shadow: 0 0 0 6px rgba(201, 138, 94, 0.14),
+              0 0 24px rgba(201, 138, 94, 0.5),
+              0 8px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.dice-btn:hover {
+  transform: scale(1.04);
+}
+
+.dice-btn:active {
+  transform: scale(0.96);
+}
+
+.dice-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dice-face {
+  font-size: 34px;
+  color: #3d0f28;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.4));
+}
+
+.dice-face.rolling {
+  animation: diceSpin 0.5s linear infinite;
+}
+
+@keyframes diceSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(0.9); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(245, 230, 234, 0.6);
+}
+
+/* ============ Modal ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 1, 3, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(180deg, #3d0f28, #14040a);
+  border: 1px solid rgba(232, 180, 160, 0.4);
+  border-radius: 24px;
+  padding: 28px 24px 24px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(201, 138, 94, 0.22), 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.9) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-heart {
+  font-size: 22px;
+  color: #e8b4a0;
+  text-shadow: 0 0 12px rgba(232, 180, 160, 0.8);
+  margin-bottom: 10px;
+}
+
+.modal-square-label {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #f7e8dc;
+  margin-bottom: 12px;
+}
+
+.modal-task-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(245, 230, 234, 0.85);
+  margin-bottom: 22px;
+  min-height: 44px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions-single {
+  justify-content: center;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 14px;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+}
+
+.modal-btn-skip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(245, 230, 234, 0.8);
+}
+
+.modal-btn-accept {
+  background: linear-gradient(180deg, #f0c896, #c98a5e);
+  color: #2a0a16;
+  box-shadow: 0 4px 16px rgba(201, 138, 94, 0.45);
+}
+
+.modal-hint {
+  margin-top: 16px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: rgba(245, 230, 234, 0.4);
+}
+
+.rules-list {
+  list-style: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.rules-list li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(245, 230, 234, 0.8);
+  padding-left: 18px;
+  position: relative;
+}
+
+.rules-list li::before {
+  content: '♥';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-size: 10px;
+  color: #e8b4a0;
+}
+
+/* ============ Win Banner ============ */
+.win-banner {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 1, 3, 0.85);
+  z-index: 200;
+  text-align: center;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.3s ease;
+}
+
+.win-banner[hidden] {
+  display: none;
+}
+
+.win-banner h2 {
+  font-size: 34px;
+  background: linear-gradient(180deg, #fff2e0, #e8b4a0, #c98a5e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+.win-banner p {
+  color: rgba(245, 230, 234, 0.7);
+  font-size: 13px;
+}
+
+.win-banner-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 200deg, #fff2e0, #e8b4a0, #c98a5e, #a8683f, #c98a5e, #e8b4a0, #fff2e0);
+  box-shadow: 0 0 24px rgba(201, 138, 94, 0.5);
+}
+
+.win-banner-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 400px) {
+  .title { font-size: 42px; letter-spacing: 4px; }
+  .avatar-ring { width: 48px; height: 48px; }
+  .square { font-size: 11px; }
+  .dice-btn { width: 68px; height: 68px; }
+  .dice-face { font-size: 28px; }
+  }

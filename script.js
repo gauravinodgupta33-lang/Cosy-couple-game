@@ -16,8 +16,8 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
    ---------------------------------------------------------- */
 const state = {
   players: {
-    vamp:   { name: 'VAMP',   img: 'assets/vamp.png',   position: 1, skips: 0, accepted: 0 },
-    rabbit: { name: 'RABBIT', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 }
+    vamp:   { name: 'Vamp',   img: 'assets/vamp.png',   position: 1, skips: 0, accepted: 0 },
+    rabbit: { name: 'Rabbit', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 }
   },
   turnOrder: ['vamp', 'rabbit'],
   currentTurnIndex: 0,
@@ -35,7 +35,6 @@ const diceBtn         = document.getElementById('dice-btn');
 const diceFace        = document.getElementById('dice-face');
 const diceLabel       = document.getElementById('dice-label');
 const turnName        = document.getElementById('turn-name');
-const turnLabel       = document.getElementById('turn-label');
 const turnPill        = document.getElementById('turn-pill');
 const skipBadge       = document.getElementById('skip-badge');
 const btnRules        = document.getElementById('btn-rules');
@@ -59,7 +58,9 @@ const pageChipRabbit  = document.getElementById('page-chip-rabbit');
 const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 /* ----------------------------------------------------------
-   Task Hook (FIXED VERSION)
+   Task Hook — add more square numbers as you write more tasks.
+   Any square without an explicit entry falls back to the
+   default line below.
    ---------------------------------------------------------- */
 function getTaskForSquare(squareNumber) {
     const tasks = {
@@ -159,18 +160,15 @@ function renderBoard(animateSwap = false) {
           const t = document.createElement('div');
           t.className = 'token' + (id === 'rabbit' ? ' token-rabbit' : '');
 
-          // mark the currently-hopping token so its animation can differ
+          // mark the currently-hopping token so its landing animation plays
           const movingId = state.turnOrder[state.currentTurnIndex];
           if (state.isRolling && id === movingId) {
             t.classList.add('animate-hop');
           }
 
-          const base = document.createElement('div');
-          base.className = 'token-base';
           const img = document.createElement('img');
           img.src = state.players[id].img;
           img.alt = state.players[id].name;
-          t.appendChild(base);
           t.appendChild(img);
           tokenWrap.appendChild(t);
         });
@@ -227,16 +225,11 @@ function updatePageChip(chipEl, position) {
   };
 }
 
-function toTitleCase(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
-
 function renderTurnPill() {
   const currentId = state.turnOrder[state.currentTurnIndex];
   const player = state.players[currentId];
 
-  turnName.textContent = toTitleCase(player.name);
-  turnLabel.textContent = "'s turn";
+  turnName.textContent = player.name;
 
   if (player.skips > 0) {
     skipBadge.hidden = false;
@@ -294,7 +287,7 @@ function rollDice() {
   state.isRolling = true;
   diceBtn.disabled = true;
   diceFace.classList.add('rolling');
-  diceLabel.textContent = 'ROLLING…';
+  diceLabel.textContent = 'Rolling…';
 
   let spins = 0;
   const spinInterval = setInterval(() => {
@@ -311,7 +304,7 @@ function finishRoll() {
   const result = Math.floor(Math.random() * 6) + 1;
   diceFace.textContent = DICE_FACES[result - 1];
   diceFace.classList.remove('rolling');
-  diceLabel.textContent = 'TAP TO ROLL';
+  diceLabel.textContent = 'Tap to roll';
 
   snapshotState();
   // Initiate the async hop movement
@@ -427,9 +420,9 @@ function showWin(playerId) {
   banner.id = 'win-banner';
   banner.innerHTML = `
     <div class="win-banner-avatar"><img src="${player.img}" alt="${player.name}"></div>
-    <h2>${player.name} WINS!</h2>
+    <h2>${player.name} Wins!</h2>
     <p>Reached square 200 first 👑</p>
-    <button class="modal-btn modal-btn-accept" id="btn-play-again" style="max-width:200px;padding:14px 28px;">PLAY AGAIN</button>
+    <button class="modal-btn modal-btn-accept" id="btn-play-again" style="max-width:200px;padding:14px 28px;">Play Again</button>
   `;
   document.body.appendChild(banner);
 
@@ -440,8 +433,8 @@ function showWin(playerId) {
 }
 
 function resetGame() {
-  state.players.vamp = { name: 'VAMP', img: 'assets/vamp.png', position: 1, skips: 0, accepted: 0 };
-  state.players.rabbit = { name: 'RABBIT', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 };
+  state.players.vamp = { name: 'Vamp', img: 'assets/vamp.png', position: 1, skips: 0, accepted: 0 };
+  state.players.rabbit = { name: 'Rabbit', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 };
   state.currentTurnIndex = 0;
   state.history = [];
   currentPage = 0;
@@ -482,4 +475,4 @@ rulesModal.addEventListener('click', (e) => {
    Init
    ---------------------------------------------------------- */
 render();
-          
+

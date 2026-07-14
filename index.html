@@ -40,7 +40,7 @@
     <div class="player player-left" id="player-vamp">
       <div class="avatar-ring">
         <div class="avatar-ring-base"></div>
-        <img class="avatar-img" src="assets/vamp.png" alt="Vamp">
+        <img class="avatar-img" src="assets/vamp-bust.png" alt="Vamp">
       </div>
       <div class="player-info">
         <span class="player-name">Vamp</span>
@@ -54,9 +54,10 @@
 
     <!-- TURN -->
     <div class="turn-pill" id="turn-pill">
-      <span class="turn-pill-name" id="turn-name">Vamp</span>
+      <span class="turn-pill-row">
+        <span class="turn-pill-name" id="turn-name">Vamp</span><span class="turn-pill-label">'s turn</span>
+      </span>
       <span class="turn-icon">♥</span>
-      <span class="turn-pill-label">'s turn</span>
       <span class="skip-badge" id="skip-badge" hidden>0 skips</span>
     </div>
 
@@ -72,7 +73,7 @@
       </div>
       <div class="avatar-ring">
         <div class="avatar-ring-base"></div>
-        <img class="avatar-img" src="assets/rabbit.png" alt="Rabbit">
+        <img class="avatar-img" src="assets/rabbit-bust.png" alt="Rabbit">
       </div>
     </div>
 
@@ -80,6 +81,10 @@
 
   <!-- ================= BOARD ================= -->
   <section class="board-wrap">
+    <span class="board-corner corner-tl"></span>
+    <span class="board-corner corner-tr"></span>
+    <span class="board-corner corner-bl"></span>
+    <span class="board-corner corner-br"></span>
     <div class="board" id="board"></div>
   </section>
 

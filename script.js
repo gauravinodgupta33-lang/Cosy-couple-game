@@ -484,4 +484,3 @@ rulesModal.addEventListener('click', (e) => {
    Init
    ---------------------------------------------------------- */
 render();
-     

@@ -9,31 +9,31 @@
 
 :root{
 
-  /* ---- Palette: antique jewelry box + romantic red-gold ---- */
-  --obsidian:      #0e0509;   /* base background */
-  --obsidian-deep: #080305;   /* deepest recesses */
-  --wine:           #4a0f24;  /* velvet lining */
-  --wine-deep:      #2b0714;
-  --plum:           #641b34;
+  /* ---- Palette: lust red + gold ---- */
+  --obsidian:      #120306;   /* base background */
+  --obsidian-deep: #0a0203;   /* deepest recesses */
+  --wine:           #6b0f22;  /* velvet lining, deep lust red */
+  --wine-deep:      #3d0813;
+  --plum:           #8a1228;
 
-  --red:            #9c1f3a;  /* romantic rose-red accent */
-  --red-bright:     #d43a5c;
-  --red-deep:        #5c0f24;
+  --red:            #b8102e;  /* lust red accent */
+  --red-bright:     #e2183f;
+  --red-deep:        #4d0916;
 
-  --gold:           #d9a86e;  /* museum-plaque gold */
-  --gold-bright:    #f0cd96;
-  --gold-dim:       #8a6a45;
+  --gold:           #dcaa6a;  /* museum-plaque gold */
+  --gold-bright:    #f4d498;
+  --gold-dim:       #8f6a3d;
 
-  --blush:          #f0c9ce;  /* dusty rose highlight */
-  --ember:          #c4405f;  /* interactive rose-wine */
-  --ember-bright:   #e5637f;
+  --blush:          #f0b8a8;  /* warm highlight, gold-leaning */
+  --ember:          #d41f3f;  /* interactive lust-red */
+  --ember-bright:   #f0405f;
 
-  --ivory:          #f8ece1;  /* warm text */
-  --ivory-dim:      rgba(248, 236, 225, 0.64);
-  --ivory-faint:    rgba(248, 236, 225, 0.4);
+  --ivory:          #f8e6c8;  /* warm gold-tinted text */
+  --ivory-dim:      rgba(248, 230, 200, 0.68);
+  --ivory-faint:    rgba(248, 230, 200, 0.42);
 
-  --line:           rgba(217, 168, 110, 0.24);
-  --line-soft:      rgba(248, 236, 225, 0.08);
+  --line:           rgba(220, 170, 106, 0.28);
+  --line-soft:      rgba(248, 230, 200, 0.09);
 
   --shadow-deep:    0 24px 60px rgba(0, 0, 0, 0.55);
 }
@@ -59,9 +59,9 @@ html{
 body{
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background:
-    radial-gradient(ellipse 700px 500px at 18% -8%, rgba(217, 168, 110, 0.1), transparent 60%),
-    radial-gradient(ellipse 620px 520px at 88% 8%, rgba(156, 31, 58, 0.42), transparent 55%),
-    radial-gradient(ellipse 800px 700px at 50% 110%, rgba(74, 15, 36, 0.55), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 18% -8%, rgba(220, 170, 106, 0.11), transparent 60%),
+    radial-gradient(ellipse 620px 520px at 88% 8%, rgba(184, 16, 46, 0.48), transparent 55%),
+    radial-gradient(ellipse 800px 700px at 50% 110%, rgba(107, 15, 34, 0.6), transparent 60%),
     linear-gradient(180deg, var(--obsidian) 0%, var(--obsidian-deep) 100%);
   color: var(--ivory);
   min-height: 100vh;
@@ -100,7 +100,7 @@ body::before{
   height: 380px;
   top: -100px;
   left: -100px;
-  background: radial-gradient(circle, rgba(211, 122, 148, 0.16), transparent 70%);
+  background: radial-gradient(circle, rgba(184, 16, 46, 0.22), transparent 70%);
   animation: driftA 16s ease-in-out infinite;
 }
 
@@ -122,7 +122,7 @@ body::before{
 
 .app{
   width: 100%;
-  max-width: 468px;
+  max-width: 560px;
   position: relative;
   z-index: 2;
 }
@@ -237,7 +237,7 @@ body::before{
   padding: 30px 14px 14px;
   border-radius: 22px;
   background:
-    linear-gradient(180deg, rgba(74, 15, 36, 0.5), rgba(14, 5, 9, 0.72));
+    linear-gradient(180deg, rgba(107, 15, 34, 0.55), rgba(15, 5, 8, 0.74));
   border: 1px solid var(--line);
   box-shadow:
     var(--shadow-deep),
@@ -259,65 +259,19 @@ body::before{
   flex-direction: row-reverse;
 }
 
-/* Whoever's turn it is gets a brighter, pulsing bezel; the other
-   player quietly dims so focus reads at a glance. */
-.player.is-active .avatar-ring-base{
-  animation: active-bezel-pulse 1.8s ease-in-out infinite;
-}
-
+/* Whoever's turn it is gets highlighted via .avatar-img glow
+   (defined below); the other player quietly dims. */
 .player:not(.is-active){
   opacity: 0.62;
 }
 
-@keyframes active-bezel-pulse{
-  0%, 100% {
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.45),
-      0 0 16px rgba(205, 160, 106, 0.35),
-      0 3px 10px rgba(0, 0, 0, 0.5);
-  }
-  50% {
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.45),
-      0 0 26px rgba(205, 160, 106, 0.65),
-      0 3px 10px rgba(0, 0, 0, 0.5);
-  }
-}
-
-/* Medallion — a locket frame around the figurine portrait. The gold
-   ring reads as a jeweled bezel; the portrait breathes gently, like
-   a photograph animated by candlelight rather than a UI pulse. */
+/* Medallion — the figurine portrait floats freely with just a soft
+   contact shadow, no ring or disc behind it. */
 .avatar-ring{
   position: relative;
   flex-shrink: 0;
   width: 54px;
   height: 54px;
-}
-
-.avatar-ring-base{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 54px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 2.5px;
-  background: conic-gradient(from 210deg,
-    #fbf3e8, var(--gold-bright), var(--gold), var(--gold-dim),
-    var(--gold), var(--gold-bright), #fbf3e8);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.45),
-    0 0 16px rgba(205, 160, 106, 0.35),
-    0 3px 10px rgba(0, 0, 0, 0.5);
-}
-
-.avatar-ring-base::after{
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 25%, var(--plum), var(--obsidian-deep));
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .avatar-img{
@@ -334,6 +288,18 @@ body::before{
   animation: medallion-breathe 3.4s ease-in-out infinite;
   transform-origin: bottom center;
   z-index: 1;
+  transition: filter 0.3s ease;
+}
+
+/* Whoever's turn it is gets a warm gold glow directly on the
+   figurine itself instead of a ring behind it. */
+.player.is-active .avatar-img{
+  animation: medallion-breathe 3.4s ease-in-out infinite, active-glow-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes active-glow-pulse{
+  0%, 100% { filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0 transparent); }
+  50%      { filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 14px rgba(217, 168, 110, 0.65)); }
 }
 
 @keyframes medallion-breathe{
@@ -487,7 +453,7 @@ body::before{
   padding: 18px;
   border-radius: 26px;
   background:
-    linear-gradient(180deg, rgba(74, 15, 36, 0.82), rgba(11, 5, 9, 0.94));
+    linear-gradient(180deg, rgba(107, 15, 34, 0.85), rgba(12, 5, 8, 0.95));
   border: 1px solid var(--line);
   box-shadow:
     var(--shadow-deep),
@@ -553,7 +519,7 @@ body::before{
 .board{
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 9px;
+  gap: 11px;
   transition: opacity 0.3s ease;
   position: relative;
 }
@@ -569,13 +535,13 @@ body::before{
 .square{
   position: relative;
   aspect-ratio: 1;
-  border-radius: 13px;
+  border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Manrope', sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 18px;
   color: rgba(248, 236, 225, 0.58);
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008));
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -595,9 +561,9 @@ body::before{
 }
 
 .square-current{
-  background: linear-gradient(160deg, rgba(205, 160, 106, 0.22), rgba(179, 71, 95, 0.16));
-  border-color: rgba(205, 160, 106, 0.5);
-  box-shadow: 0 0 16px rgba(205, 160, 106, 0.28);
+  background: linear-gradient(160deg, rgba(220, 170, 106, 0.24), rgba(184, 16, 46, 0.22));
+  border-color: rgba(220, 170, 106, 0.5);
+  box-shadow: 0 0 16px rgba(220, 170, 106, 0.3);
   color: var(--ivory);
 }
 
@@ -609,8 +575,8 @@ body::before{
 
 .square-crown{
   position: absolute;
-  top: -11px;
-  font-size: 15px;
+  top: -14px;
+  font-size: 19px;
   z-index: 3;
   animation: crown-float 2.6s ease-in-out infinite;
   filter: drop-shadow(0 0 5px rgba(232, 196, 143, 0.7));
@@ -643,8 +609,8 @@ body::before{
 }
 
 .token{
-  width: 42px;
-  height: 42px;
+  width: 54px;
+  height: 54px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -812,11 +778,11 @@ body::before{
   width: min(92%, 380px);
   padding: 34px 26px 26px;
   border-radius: 26px;
-  background: linear-gradient(180deg, rgba(64, 15, 34, 0.98), rgba(15, 6, 10, 0.99));
-  border: 1px solid rgba(217, 168, 110, 0.3);
+  background: linear-gradient(180deg, rgba(93, 15, 33, 0.98), rgba(16, 6, 9, 0.99));
+  border: 1px solid rgba(220, 170, 106, 0.32);
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(156, 31, 58, 0.18),
+    0 0 44px rgba(184, 16, 46, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   text-align: center;
   position: relative;
@@ -933,7 +899,7 @@ body::before{
 .modal-btn-accept{
   background: linear-gradient(135deg, var(--gold-bright), var(--ember));
   color: #2a0a16;
-  box-shadow: 0 10px 26px rgba(179, 71, 95, 0.32);
+  box-shadow: 0 10px 26px rgba(184, 16, 46, 0.38);
 }
 
 .modal-hint{
@@ -1069,8 +1035,9 @@ body::before{
   .avatar-ring{ width: 46px; height: 46px; }
   .turn-pill{ min-width: 76px; padding: 7px 11px; }
   .turn-pill-name{ font-size: 13px; }
-  .square{ font-size: 11px; }
-  .token{ width: 26px; height: 30px; }
+  .board{ gap: 7px; }
+  .square{ font-size: 14px; border-radius: 12px; }
+  .token{ width: 40px; height: 40px; }
   .dice-btn{ width: 70px; height: 70px; }
   .dice-face{ font-size: 29px; }
   .modal-card{ padding: 26px 18px 20px; }
@@ -1080,4 +1047,6 @@ body::before{
 @media (max-width: 350px){
   .title{ font-size: 40px; letter-spacing: 3px; }
   .player-name{ font-size: 14px; }
+  .square{ font-size: 12px; }
+  .token{ width: 34px; height: 34px; }
 }

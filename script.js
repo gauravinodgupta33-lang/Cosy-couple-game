@@ -3,7 +3,7 @@
    ========================================================== */
 
 const BOARD_SIZE = 200;
-const PAGE_SIZE = 50;      // squares shown at once
+const PAGE_SIZE = 30;      // squares shown at once (3 rows of 10)
 const ROW_LEN = 10;        // squares per row (matches 10-col CSS grid)
 
 /* ----------------------------------------------------------
@@ -484,3 +484,4 @@ rulesModal.addEventListener('click', (e) => {
    Init
    ---------------------------------------------------------- */
 render();
+     

@@ -9,27 +9,31 @@
 
 :root{
 
-  /* ---- Palette: antique jewelry box, not candy-pink ---- */
-  --obsidian:      #0d0710;   /* base background */
-  --obsidian-deep: #070409;   /* deepest recesses */
-  --wine:           #3d1228;  /* velvet lining */
-  --wine-deep:      #26091a;
-  --plum:           #551b38;
+  /* ---- Palette: antique jewelry box + romantic red-gold ---- */
+  --obsidian:      #0e0509;   /* base background */
+  --obsidian-deep: #080305;   /* deepest recesses */
+  --wine:           #4a0f24;  /* velvet lining */
+  --wine-deep:      #2b0714;
+  --plum:           #641b34;
 
-  --gold:           #cda06a;  /* museum-plaque gold */
-  --gold-bright:    #e8c48f;
+  --red:            #9c1f3a;  /* romantic rose-red accent */
+  --red-bright:     #d43a5c;
+  --red-deep:        #5c0f24;
+
+  --gold:           #d9a86e;  /* museum-plaque gold */
+  --gold-bright:    #f0cd96;
   --gold-dim:       #8a6a45;
 
-  --blush:          #e8c4c9;  /* dusty rose highlight */
-  --ember:          #b3475f;  /* interactive rose-wine */
-  --ember-bright:   #d16a82;
+  --blush:          #f0c9ce;  /* dusty rose highlight */
+  --ember:          #c4405f;  /* interactive rose-wine */
+  --ember-bright:   #e5637f;
 
-  --ivory:          #f3e9de;  /* warm text */
-  --ivory-dim:      rgba(243, 233, 222, 0.62);
-  --ivory-faint:    rgba(243, 233, 222, 0.38);
+  --ivory:          #f8ece1;  /* warm text */
+  --ivory-dim:      rgba(248, 236, 225, 0.64);
+  --ivory-faint:    rgba(248, 236, 225, 0.4);
 
-  --line:           rgba(205, 160, 106, 0.22);
-  --line-soft:      rgba(243, 233, 222, 0.08);
+  --line:           rgba(217, 168, 110, 0.24);
+  --line-soft:      rgba(248, 236, 225, 0.08);
 
   --shadow-deep:    0 24px 60px rgba(0, 0, 0, 0.55);
 }
@@ -55,9 +59,9 @@ html{
 body{
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background:
-    radial-gradient(ellipse 700px 500px at 18% -8%, rgba(205, 160, 106, 0.09), transparent 60%),
-    radial-gradient(ellipse 600px 500px at 88% 8%, rgba(85, 27, 56, 0.55), transparent 55%),
-    radial-gradient(ellipse 800px 700px at 50% 110%, rgba(61, 18, 40, 0.5), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 18% -8%, rgba(217, 168, 110, 0.1), transparent 60%),
+    radial-gradient(ellipse 620px 520px at 88% 8%, rgba(156, 31, 58, 0.42), transparent 55%),
+    radial-gradient(ellipse 800px 700px at 50% 110%, rgba(74, 15, 36, 0.55), transparent 60%),
     linear-gradient(180deg, var(--obsidian) 0%, var(--obsidian-deep) 100%);
   color: var(--ivory);
   min-height: 100vh;
@@ -233,7 +237,7 @@ body::before{
   padding: 30px 14px 14px;
   border-radius: 22px;
   background:
-    linear-gradient(180deg, rgba(61, 18, 40, 0.55), rgba(13, 7, 16, 0.7));
+    linear-gradient(180deg, rgba(74, 15, 36, 0.5), rgba(14, 5, 9, 0.72));
   border: 1px solid var(--line);
   box-shadow:
     var(--shadow-deep),
@@ -321,8 +325,8 @@ body::before{
   bottom: -1px;
   left: 50%;
   transform: translateX(-50%);
-  width: 74px;
-  height: 74px;
+  width: 70px;
+  height: 70px;
   display: block;
   object-fit: contain;
   object-position: bottom center;
@@ -404,43 +408,62 @@ body::before{
   align-self: flex-end;
 }
 
-/* Turn pill — a small brass plaque */
+/* Turn pill — a small brass-and-garnet plaque */
 .turn-pill{
   flex-shrink: 0;
-  padding: 9px 14px;
+  padding: 10px 16px;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--plum), var(--wine-deep));
+  background: linear-gradient(180deg, var(--plum), var(--red-deep));
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  min-width: 88px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  gap: 4px;
+  min-width: 96px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.turn-pill-row{
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .turn-pill-name{
   font-family: 'Cormorant', Georgia, serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--gold-bright);
   letter-spacing: 0.3px;
 }
 
 .turn-pill-label{
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  letter-spacing: 0.3px;
   color: var(--ivory-faint);
 }
 
 .turn-icon{
-  font-size: 11px;
+  font-size: 10px;
   color: var(--ember-bright);
-  margin: 1px 0;
+  position: relative;
 }
+
+.turn-icon::before,
+.turn-icon::after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+
+.turn-icon::before{ right: 100%; margin-right: 6px; }
+.turn-icon::after{ left: 100%; margin-left: 6px; transform: scaleX(-1); }
 
 .skip-badge{
   font-size: 8.5px;
@@ -448,8 +471,8 @@ body::before{
   letter-spacing: 0.3px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(205, 160, 106, 0.22);
-  border: 1px solid rgba(205, 160, 106, 0.4);
+  background: rgba(217, 168, 110, 0.22);
+  border: 1px solid rgba(217, 168, 110, 0.4);
   color: var(--gold-bright);
   margin-top: 1px;
 }
@@ -461,17 +484,17 @@ body::before{
 .board-wrap{
   position: relative;
   z-index: 1;
-  padding: 16px;
-  border-radius: 24px;
+  padding: 18px;
+  border-radius: 26px;
   background:
-    linear-gradient(180deg, rgba(38, 9, 26, 0.85), rgba(10, 5, 12, 0.92));
+    linear-gradient(180deg, rgba(74, 15, 36, 0.82), rgba(11, 5, 9, 0.94));
   border: 1px solid var(--line);
   box-shadow:
     var(--shadow-deep),
     inset 0 2px 18px rgba(0, 0, 0, 0.5),
     inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   overflow: hidden;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 /* Glass shine sweep across the case */
@@ -487,20 +510,50 @@ body::before{
   pointer-events: none;
 }
 
-/* Filigree corner ornaments — the jewelry-box detail */
+/* Filigree inset border — the jewelry-box detail, in warmer gold */
 .board-wrap::after{
   content: '';
   position: absolute;
-  inset: 6px;
-  border-radius: 18px;
-  border: 1px solid rgba(205, 160, 106, 0.12);
+  inset: 7px;
+  border-radius: 19px;
+  border: 1px solid rgba(217, 168, 110, 0.16);
   pointer-events: none;
 }
+
+/* Ornamental corner brackets — small golden line-flourishes echoing
+   the locket's engraved corners, drawn with the board-corner spans
+   added in the HTML. */
+.board-corner{
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.55;
+}
+
+.board-corner::before,
+.board-corner::after{
+  content: '';
+  position: absolute;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.board-corner::before{ width: 100%; height: 1.5px; top: 0; left: 0; }
+.board-corner::after{ width: 1.5px; height: 100%; top: 0; left: 0; background: linear-gradient(180deg, var(--gold), transparent); }
+
+.corner-tl{ top: 10px; left: 10px; }
+
+.corner-tr{ top: 10px; right: 10px; transform: scaleX(-1); }
+
+.corner-bl{ bottom: 10px; left: 10px; transform: scaleY(-1); }
+
+.corner-br{ bottom: 10px; right: 10px; transform: scale(-1, -1); }
 
 .board{
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 6px;
+  gap: 9px;
   transition: opacity 0.3s ease;
   position: relative;
 }
@@ -516,16 +569,16 @@ body::before{
 .square{
   position: relative;
   aspect-ratio: 1;
-  border-radius: 11px;
+  border-radius: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Manrope', sans-serif;
   font-weight: 600;
-  font-size: 12.5px;
-  color: rgba(243, 233, 222, 0.55);
+  font-size: 15px;
+  color: rgba(248, 236, 225, 0.58);
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.008));
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   overflow: visible;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
@@ -590,8 +643,8 @@ body::before{
 }
 
 .token{
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -759,11 +812,11 @@ body::before{
   width: min(92%, 380px);
   padding: 34px 26px 26px;
   border-radius: 26px;
-  background: linear-gradient(180deg, rgba(45, 13, 30, 0.98), rgba(15, 6, 12, 0.99));
-  border: 1px solid rgba(205, 160, 106, 0.28);
+  background: linear-gradient(180deg, rgba(64, 15, 34, 0.98), rgba(15, 6, 10, 0.99));
+  border: 1px solid rgba(217, 168, 110, 0.3);
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(179, 71, 95, 0.14),
+    0 0 40px rgba(156, 31, 58, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   text-align: center;
   position: relative;

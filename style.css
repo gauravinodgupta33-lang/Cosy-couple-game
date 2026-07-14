@@ -279,8 +279,8 @@ body::before{
   bottom: -1px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   display: block;
   object-fit: contain;
   object-position: bottom center;

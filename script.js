@@ -237,6 +237,15 @@ function renderTurnPill() {
   } else {
     skipBadge.hidden = true;
   }
+
+  // Highlight whichever player's turn it is with a brighter bezel;
+  // the other player quietly dims.
+  const vampEl = document.getElementById('player-vamp');
+  const rabbitEl = document.getElementById('player-rabbit');
+  if (vampEl && rabbitEl) {
+    vampEl.classList.toggle('is-active', currentId === 'vamp');
+    rabbitEl.classList.toggle('is-active', currentId === 'rabbit');
+  }
 }
 
 /* ----------------------------------------------------------
@@ -475,4 +484,3 @@ rulesModal.addEventListener('click', (e) => {
    Init
    ---------------------------------------------------------- */
 render();
-

@@ -111,6 +111,10 @@ function pageOf(squareNumber) {
    ---------------------------------------------------------- */
 let currentPage = 0;
 
+// Enhancement-only tracking var: which player's token most recently
+// finished landing, so renderBoard() knows when to play the ripple.
+let lastLandedPlayerId = null;
+
 function render() {
   renderBoard();
   renderPlayerBar();
@@ -157,6 +161,12 @@ function renderBoard(animateSwap = false) {
           const movingId = state.turnOrder[state.currentTurnIndex];
           if (state.isRolling && id === movingId) {
             t.classList.add('animate-hop');
+
+            // faint trail ghost left behind on each hop step (enhancement,
+            // purely decorative — does not affect game state)
+            const trail = document.createElement('div');
+            trail.className = 'token-trail';
+            t.appendChild(trail);
           }
 
           const img = document.createElement('img');
@@ -167,6 +177,15 @@ function renderBoard(animateSwap = false) {
         });
 
         sq.appendChild(tokenWrap);
+
+        // Landing ripple: fires once the token has finished its hop
+        // sequence and is no longer mid-roll (enhancement only).
+        if (!state.isRolling && occupants.some(id => id === lastLandedPlayerId)) {
+          const ripple = document.createElement('div');
+          ripple.className = 'square-land-ripple';
+          sq.appendChild(ripple);
+          sq.addEventListener('animationend', () => ripple.remove(), { once: true });
+        }
       }
 
       boardEl.appendChild(sq);
@@ -308,6 +327,12 @@ function finishRoll() {
   diceFace.classList.remove('rolling');
   diceLabel.textContent = 'Tap to roll';
 
+  // Enhancement: a quick settle squash on the die once the result lands
+  diceFace.classList.add('settling');
+  diceFace.addEventListener('animationend', () => {
+    diceFace.classList.remove('settling');
+  }, { once: true });
+
   snapshotState();
   // Initiate the async hop movement
   moveCurrentPlayer(result);
@@ -335,6 +360,13 @@ async function moveCurrentPlayer(steps) {
 
   state.isRolling = false;
   diceBtn.disabled = false;
+
+  // Enhancement: mark this player as "just landed" and re-render so the
+  // landing square gets its ripple burst, then clear the flag shortly
+  // after so it doesn't replay on unrelated re-renders.
+  lastLandedPlayerId = currentId;
+  renderBoard(false);
+  setTimeout(() => { lastLandedPlayerId = null; }, 700);
 
   if (player.position >= BOARD_SIZE) {
     player.position = BOARD_SIZE;
@@ -378,12 +410,28 @@ function handleAccept() {
   const player = state.players[playerId];
 
   player.accepted += 1;
-  if (player.accepted % 3 === 0) {
+  const earnedSkip = player.accepted % 3 === 0;
+  if (earnedSkip) {
     player.skips += 1;
   }
 
   closeTaskModal();
   renderTurnPill();
+
+  // Enhancement: brief gold pulse on the score that just went up, and a
+  // celebratory pop on the skip badge if this accept earned a new skip.
+  const scoreEl = playerId === 'vamp' ? scoreVamp : scoreRabbit;
+  if (scoreEl) {
+    scoreEl.classList.remove('streak-pop');
+    void scoreEl.offsetWidth; // restart animation if triggered rapidly
+    scoreEl.classList.add('streak-pop');
+  }
+  if (earnedSkip && !skipBadge.hidden) {
+    skipBadge.classList.remove('skip-earned');
+    void skipBadge.offsetWidth;
+    skipBadge.classList.add('skip-earned');
+  }
+
   endTurn();
 }
 
@@ -409,6 +457,13 @@ function handleSkip() {
 function endTurn() {
   state.currentTurnIndex = (state.currentTurnIndex + 1) % state.turnOrder.length;
   renderTurnPill();
+
+  // Enhancement: a soft gold glow sweep on the turn pill to mark the handoff
+  if (turnPill) {
+    turnPill.classList.remove('turn-switch');
+    void turnPill.offsetWidth;
+    turnPill.classList.add('turn-switch');
+  }
 }
 
 /* ----------------------------------------------------------
@@ -421,17 +476,60 @@ function showWin(playerId) {
   banner.className = 'win-banner';
   banner.id = 'win-banner';
   banner.innerHTML = `
-    <div class="win-banner-avatar"><img src="${player.img}" alt="${player.name}"></div>
+    <div class="win-banner-avatar"><span class="win-banner-rays"></span><img src="${player.img}" alt="${player.name}"></div>
     <h2>${player.name} Wins!</h2>
     <p>Reached square 200 first 👑</p>
     <button class="modal-btn modal-btn-accept" id="btn-play-again" style="max-width:200px;padding:14px 28px;">Play Again</button>
   `;
   document.body.appendChild(banner);
 
+  // Enhancement: a brief confetti burst layered above the banner
+  spawnConfetti();
+
   document.getElementById('btn-play-again').addEventListener('click', () => {
     banner.remove();
+    const confettiLayer = document.getElementById('confetti-layer');
+    if (confettiLayer) confettiLayer.remove();
     resetGame();
   });
+}
+
+/* ----------------------------------------------------------
+   Confetti (enhancement only — no effect on game state)
+   ---------------------------------------------------------- */
+function spawnConfetti() {
+  const existing = document.getElementById('confetti-layer');
+  if (existing) existing.remove();
+
+  const layer = document.createElement('div');
+  layer.className = 'confetti-layer';
+  layer.id = 'confetti-layer';
+
+  const colors = ['#f0cd96', '#d9a86e', '#e5637f', '#c4405f', '#f8ece1', '#f0c9ce'];
+  const pieceCount = 46;
+
+  for (let i = 0; i < pieceCount; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    const size = 6 + Math.random() * 6;
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.width = `${size}px`;
+    piece.style.height = `${size * 0.4}px`;
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDuration = `${2.4 + Math.random() * 1.6}s`;
+    piece.style.animationDelay = `${Math.random() * 0.6}s`;
+    layer.appendChild(piece);
+  }
+
+  document.body.appendChild(layer);
+
+  // Clean up automatically if the player never taps "Play Again"
+  // right away — keeps the DOM tidy after the animation settles.
+  setTimeout(() => {
+    if (document.getElementById('confetti-layer') === layer) {
+      layer.remove();
+    }
+  }, 4500);
 }
 
 function resetGame() {
@@ -472,6 +570,26 @@ taskModal.addEventListener('click', (e) => {
 rulesModal.addEventListener('click', (e) => {
   if (e.target === rulesModal) closeRules();
 });
+
+/* ----------------------------------------------------------
+   Tap ripple (enhancement only — purely visual, added on top
+   of the existing buttons without altering their listeners)
+   ---------------------------------------------------------- */
+function attachRipple(el) {
+  if (!el) return;
+  el.addEventListener('click', (e) => {
+    el.classList.remove('btn-ripple');
+    void el.offsetWidth;
+    // position the ripple origin at the pointer if available
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX ?? rect.left + rect.width / 2) - rect.left;
+    const y = (e.clientY ?? rect.top + rect.height / 2) - rect.top;
+    el.style.setProperty('--ripple-x', `${x}px`);
+    el.style.setProperty('--ripple-y', `${y}px`);
+    el.classList.add('btn-ripple');
+  });
+}
+[diceBtn, btnRules, btnAccept, btnSkip, btnCloseRules].forEach(attachRipple);
 
 /* ----------------------------------------------------------
    Init

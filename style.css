@@ -350,6 +350,7 @@ body::before{
   font-weight: 500;
   letter-spacing: 0.3px;
   color: var(--ivory-faint);
+  white-space: nowrap;
 }
 
 .page-chip{
@@ -522,6 +523,7 @@ body::before{
   gap: 11px;
   transition: opacity 0.3s ease;
   position: relative;
+  padding: 0 6px;
 }
 
 .board.board-swap{
@@ -1272,4 +1274,4 @@ body::before{
   .win-banner-rays, .win-title-rise, .turn-switch-glow, .task-text-in{
     animation: none !important;
   }
-   }
+                                           }

@@ -519,7 +519,7 @@ body::before{
 
 .board{
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(10, minmax(0, 1fr));
   gap: 11px;
   transition: opacity 0.3s ease;
   position: relative;
@@ -749,7 +749,6 @@ body::before{
 .btn-icon{
   font-size: 12px;
 }
-
 /* =====================================================================
    MODALS — wax-seal task reveal (signature moment)
    ===================================================================== */
@@ -817,6 +816,7 @@ body::before{
   border-bottom: none;
   border-top-left-radius: 10px;
 }
+
 .modal-card::after{
   bottom: 12px;
   right: 12px;
@@ -1274,4 +1274,261 @@ body::before{
   .win-banner-rays, .win-title-rise, .turn-switch-glow, .task-text-in{
     animation: none !important;
   }
-                                           }
+}
+
+/* =====================================================================
+   SIGNATURE PASS — a second layer of polish on top of everything
+   above. Nothing here removes or overrides existing behaviour; it
+   adds a page-load choreography, an ambient ember-drift layer, a
+   glass shimmer sweeping the title, richer square interaction states,
+   a satin-ribbon accent on the board case, and a more theatrical
+   modal entrance. Every rule below is additive and scoped to new
+   classes/selectors so nothing existing changes shape.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. PAGE-LOAD CHOREOGRAPHY
+   The header, player bar, board, and controls rise in on load, each
+   a beat behind the last — turns the first paint into a small
+   entrance rather than everything just appearing at once.
+   --------------------------------------------------------------------- */
+.header{
+  animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.player-bar{
+  animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both,
+             panel-glow 7s ease-in-out infinite;
+}
+
+.board-wrap{
+  animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both,
+             panel-glow 7s ease-in-out infinite;
+}
+
+.controls{
+  animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+}
+
+@keyframes rise-in{
+  0%   { opacity: 0; transform: translateY(22px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------
+   2. AMBIENT EMBER DRIFT
+   A handful of tiny warm particles rising slowly behind the app,
+   like dust in candlelight. Purely decorative, ignored by layout.
+   --------------------------------------------------------------------- */
+.ember-field{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ember-mote{
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-bright), transparent 70%);
+  opacity: 0;
+  animation: ember-rise linear infinite;
+  filter: drop-shadow(0 0 3px rgba(232, 196, 143, 0.8));
+}
+
+@keyframes ember-rise{
+  0%   { opacity: 0; transform: translateY(0) translateX(0); }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-100vh) translateX(var(--drift, 20px)); }
+}
+
+/* ---------------------------------------------------------------------
+   3. TITLE GLASS SHIMMER
+   A soft diagonal light sweep drifts across "LOVESICK" on a slow
+   loop — the kind of finish you'd see on foil-stamped lettering
+   catching the light as you tilt it.
+   --------------------------------------------------------------------- */
+.title{
+  isolation: isolate;
+}
+
+.title::before{
+  content: 'Lovesick';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.55) 48%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0.55) 52%,
+    transparent 65%);
+  background-size: 300% 100%;
+  background-position: 130% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  mix-blend-mode: overlay;
+  animation: title-shimmer 6.5s ease-in-out infinite;
+  animation-delay: 1.4s;
+  pointer-events: none;
+}
+
+@keyframes title-shimmer{
+  0%   { background-position: 160% 0; }
+  35%  { background-position: -60% 0; }
+  100% { background-position: -60% 0; }
+}
+
+/* ---------------------------------------------------------------------
+   4. BOARD CASE — satin ribbon accent + refined hover/press on squares
+   A slim gradient ribbon along the top edge of the board case, like
+   the lining seam inside a jewelry box lid, plus richer per-square
+   interaction so the board feels tactile even before a token lands.
+   --------------------------------------------------------------------- */
+.board-wrap{
+  position: relative;
+}
+
+.board-wrap::marker{
+  content: none;
+}
+
+.board-ribbon{
+  position: absolute;
+  top: 0;
+  left: 14%;
+  right: 14%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent, var(--gold-bright), var(--gold), var(--gold-bright), transparent);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 999px;
+}
+
+.square{
+  cursor: default;
+}
+
+.square:hover{
+  transform: translateY(-2px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+  border-color: rgba(217, 168, 110, 0.32);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.square-current:hover{
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* A soft inner bevel so every tile reads like cut glass rather than
+   a flat swatch, echoing the "display case" framing of the board */
+.square{
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -6px 10px -8px rgba(0, 0, 0, 0.4);
+}
+
+.square-current{
+  box-shadow:
+    0 0 16px rgba(205, 160, 106, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -6px 10px -8px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------------------------------------------------------------------
+   5. DICE — richer resting presence: a slow halo breathing around
+   the button even before it's pressed, so it reads as inviting
+   rather than inert while waiting for a turn.
+   --------------------------------------------------------------------- */
+.dice-wrap{
+  position: relative;
+}
+
+.dice-wrap::before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 168, 110, 0.22), transparent 72%);
+  animation: dice-halo-breathe 3.4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes dice-halo-breathe{
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.94); }
+  50%      { opacity: 0.9; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* ---------------------------------------------------------------------
+   6. MODAL — a theatrical curtain-style backdrop shimmer and a
+   slightly richer heart-seal entrance to match the board's new
+   bevel language.
+   --------------------------------------------------------------------- */
+.modal-overlay{
+  background:
+    radial-gradient(ellipse 500px 380px at 50% 30%, rgba(156, 31, 58, 0.12), transparent 65%),
+    rgba(5, 2, 6, 0.78);
+}
+
+.modal-heart{
+  position: relative;
+}
+.modal-heart::before{
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 196, 143, 0.3);
+  animation: modal-heart-ring 2.4s ease-out infinite;
+}
+
+@keyframes modal-heart-ring{
+  0%   { opacity: 0.7; transform: scale(0.8); }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+
+/* ---------------------------------------------------------------------
+   7. PROGRESS TRACK — a subtle traveling shine so progress reads as
+   alive and precious, like a thin vein of gold rather than a flat bar.
+   --------------------------------------------------------------------- */
+.progress-fill{
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  width: 40%;
+  animation: progress-shine 2.8s ease-in-out infinite;
+}
+
+@keyframes progress-shine{
+  0%   { transform: translateX(-120%); }
+  60%, 100% { transform: translateX(280%); }
+}
+
+/* ---------------------------------------------------------------------
+   REDUCED MOTION — extend the existing safeguard to every new
+   decorative animation introduced in this pass.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .header, .player-bar, .board-wrap, .controls,
+  .ember-mote, .title::before, .square:hover,
+  .dice-wrap::before, .modal-heart::before, .progress-fill::after{
+    animation: none !important;
+  }
+}

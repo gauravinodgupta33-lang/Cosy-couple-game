@@ -589,7 +589,46 @@ function attachRipple(el) {
     el.classList.add('btn-ripple');
   });
 }
+
 [diceBtn, btnRules, btnAccept, btnSkip, btnCloseRules].forEach(attachRipple);
+
+/* ----------------------------------------------------------
+   Ambient ember field (enhancement only — decorative, no
+   effect on game state). Spawns a handful of slow-rising
+   motes behind the app and keeps replenishing them so the
+   page never looks static.
+   ---------------------------------------------------------- */
+function initEmberField() {
+  const field = document.getElementById('ember-field');
+  if (!field) return;
+
+  const MAX_EMBERS = 14;
+
+  function spawnEmber() {
+    const mote = document.createElement('span');
+    mote.className = 'ember-mote';
+    const left = Math.random() * 100;
+    const duration = 9 + Math.random() * 8;
+    const drift = (Math.random() * 60 - 30).toFixed(0) + 'px';
+    mote.style.left = `${left}%`;
+    mote.style.setProperty('--drift', drift);
+    mote.style.animationDuration = `${duration}s`;
+    field.appendChild(mote);
+
+    // remove once its rise animation finishes, then spawn a replacement
+    setTimeout(() => {
+      mote.remove();
+      spawnEmber();
+    }, duration * 1000);
+  }
+
+  // stagger the initial spawns so they don't all rise in unison
+  for (let i = 0; i < MAX_EMBERS; i++) {
+    setTimeout(spawnEmber, i * 700);
+  }
+}
+
+initEmberField();
 
 /* ----------------------------------------------------------
    Init
